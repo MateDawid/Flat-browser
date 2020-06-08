@@ -35,36 +35,42 @@ def olx(city,price_from,price_to,area_from,area_to,days):
     print("="*40)
     for element in elements:
         URL = element.find('a',href = True)['href'] 
-        offerTitle = element.find('h3',class_="lheight22 margintop5")
-        price = element.find('p',class_="price")
-        #connecting with offer page
-        offerPage = requests.get(URL)
-        offerSoup = BeautifulSoup(offerPage.content,"html.parser")
-        #finding flat area
-        index = 0
-        details = offerSoup.findAll("li",class_="offer-details__item")
-        for i in range (len(details)):
+        if URL.startswith("https://www.olx.pl/"):
+          offerTitle = element.find('h3',class_="lheight22 margintop5")
+          price = element.find('p',class_="price")
+          #connecting with offer page
+          offerPage = requests.get(URL)
+          offerSoup = BeautifulSoup(offerPage.content,"html.parser")
+          #finding flat area
+          index = 0
+          details = offerSoup.findAll("li",class_="offer-details__item")
+          for i in range (len(details)):
             if details[i].find('span',class_='offer-details__name').text.strip() == "Powierzchnia":
-                index = i
-        area = offerSoup.findAll("strong",class_="offer-details__value")[index]
-        #finding offer date
-        offerDate = ((offerSoup.find("li",class_="offer-bottombar__item")).find('strong')).text.strip()[9:]
-        moth_number = months_numbers[(offerDate[2:-4]).strip()]
-        if days != "":
+              index = i
+          area = offerSoup.findAll("strong",class_="offer-details__value")[index]
+          #finding offer date
+          offerDate = ((offerSoup.find("li",class_="offer-bottombar__item")).find('strong')).text.strip()[9:]
+          moth_number = months_numbers[(offerDate[2:-4]).strip()]
+          if days != "":
             if datetime.date(int(offerDate[-4:]),int(moth_number),int(offerDate[:2]))+relativedelta(days=int(days))>datetime.date.today():
-                print("Tytuł:",offerTitle.text.strip())
-                print("Cena:",price.text.strip())
-                print("Powierzchnia:",area.text.strip())
-                print("URL:",URL)
-                print("="*40)
+              print("Tytuł:",offerTitle.text.strip())
+              print("Cena:",price.text.strip())
+              print("Powierzchnia:",area.text.strip())
+              print("URL:",URL)
+              print("="*40)
             else:
-                continue
-        else:
+              continue
+          else:
             print("Tytuł:",offerTitle.text.strip())
             print("Cena:",price.text.strip())
             print("Powierzchnia:",area.text.strip())
             print("URL:",URL)
             print("="*40)
+        elif URL.startswith("https://www.otodom.pl/"):
+          continue
+        else:
+          print("Oferta z innego serwisu.")
+
 
 city = input("Podaj miasto: ")
 downprice = input("Podaj minimalną cenę: ")
@@ -73,4 +79,5 @@ downarea = input("Podaj minimalny metraż: ")
 higharea = input("Podaj maksymalny metraż: ")
 days = input("Podaj liczbę dni od dodania ogłoszenia: ")
 
+otodom(city.lower(),downprice,highprice,downarea,higharea,days)
 olx(city.lower(),downprice,highprice,downarea,higharea,days)
