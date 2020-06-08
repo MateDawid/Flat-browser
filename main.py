@@ -11,10 +11,13 @@ def otodom (city,price_from,price_to,area_from,area_to,days):
         
     page = requests.get(adress)
     soup = BeautifulSoup(page.content,"html.parser")
-    elements = soup.findAll("article",attrs={"class":"offer-item"})
-    print("Ofert na otodom.pl: ",len(elements))
-    print("="*40)
-    for element in elements:
+    if soup.find('p',class_="title").text.strip() == "Niestety nie znaleźliśmy ogłoszeń odpowiadających Twoim kryteriom w wybranej przez Ciebie lokalizacji":
+      print('Brak wyników')
+    else:
+      elements = soup.findAll("article",attrs={"class":"offer-item"})
+      print("Ofert na otodom.pl: ",len(elements))
+      print("="*40)
+      for element in elements:
         offerTitle = element.find('span',class_="offer-item-title")
         price = element.find('li',class_="offer-item-price")
         area = element.find('li',class_="hidden-xs offer-item-area")
@@ -80,4 +83,4 @@ higharea = input("Podaj maksymalny metraż: ")
 days = input("Podaj liczbę dni od dodania ogłoszenia: ")
 
 otodom(city.lower(),downprice,highprice,downarea,higharea,days)
-olx(city.lower(),downprice,highprice,downarea,higharea,days)
+#olx(city.lower(),downprice,highprice,downarea,higharea,days)
