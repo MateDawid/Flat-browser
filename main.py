@@ -2,40 +2,51 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 from dateutil.relativedelta import relativedelta
+from tkinter import *
+from tkinter import ttk
 
-months_numbers = {"stycznia":1,"lutego":2,"marca":3,"kwietnia":4,"maja":5,"czerwca":6,"lipca":7,"sierpnia":8,"września":9,"października":10,"listopada":11,"grudnia":12}
+def offer_search():
+  all_offers = []
+  city = city_field.get()
+  downprice = downprice_field.get()
+  highprice = highprice_field.get()
+  downarea = downarea_field.get()
+  higharea = higharea_field.get()
+  days = days_field.get()
+  for element in otodom(city.lower(),downprice,highprice,downarea,higharea,days):
+    all_offers.append(element)
+  for element in olx(city.lower(),downprice,highprice,downarea,higharea,days):
+    all_offers.append(element)
+  offerAmount = len(all_offers)
+  for offer in all_offers:
+    listBox.insert("","end",values=(offer[0],offer[1],offer[2],offer[3],offer[4]))
 
 def otodom (city,price_from,price_to,area_from,area_to,days):
    
-    adress = "https://www.otodom.pl/sprzedaz/mieszkanie/"+city+"/?search%5Bcreated_since%5D="+days+"&search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&nrAdsPerPage=72"
-        
+    adress = "https://www.otodom.pl/sprzedaz/mieszkanie/"+city+"/?search%5Bcreated_since%5D="+days+"&search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&nrAdsPerPage=72" 
     page = requests.get(adress)
     soup = BeautifulSoup(page.content,"html.parser")
-    if soup.find('p',class_="title").text.strip() == "Niestety nie znaleźliśmy ogłoszeń odpowiadających Twoim kryteriom w wybranej przez Ciebie lokalizacji":
-      print('Brak wyników')
-    else:
-      elements = soup.findAll("article",attrs={"class":"offer-item"})
-      print("Ofert na otodom.pl: ",len(elements))
-      print("="*40)
-      for element in elements:
-        offerTitle = element.find('span',class_="offer-item-title")
-        price = element.find('li',class_="offer-item-price")
-        area = element.find('li',class_="hidden-xs offer-item-area")
-        URL = element['data-url']
-        print("Tytuł:",offerTitle.text.strip())
-        print("Cena:",price.text.strip())
-        print("Powierzchnia:",area.text.strip())
-        print("URL:",URL)
-        print("="*40) 
+    elements = soup.findAll("article",attrs={"class":"offer-item"})
+    offers = []
+    for element in elements:
+        city_name = city.capitalize()
+        if city_name in str(element.find('p',class_="text-nowrap").text.strip()):
+            offerTitle = element.find('span',class_="offer-item-title")
+            price = element.find('li',class_="offer-item-price")
+            area = element.find('li',class_="hidden-xs offer-item-area")
+            URL = element['data-url']
+            offers.append(['otodom.pl',offerTitle.text.strip(),area.text.strip(),price.text.strip(),URL])
+    return offers
 def olx(city,price_from,price_to,area_from,area_to,days):
-
+    
+    months_numbers = {"stycznia":1,"lutego":2,"marca":3,"kwietnia":4,"maja":5,"czerwca":6,"lipca":7,"sierpnia":8,"września":9,"października":10,"listopada":11,"grudnia":12}
     adress = "https://www.olx.pl/nieruchomosci/mieszkania/sprzedaz/"+city+"/?search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&view=list"
 
     page = requests.get(adress)
     soup = BeautifulSoup(page.content,"html.parser")
     elements = soup.findAll("tr",attrs={"class":"wrap"})
-    print("Ofert na olx.pl: ",len(elements))
-    print("="*40)
+    offers = []
+
     for element in elements:
         URL = element.find('a',href = True)['href'] 
         if URL.startswith("https://www.olx.pl/"):
@@ -56,31 +67,56 @@ def olx(city,price_from,price_to,area_from,area_to,days):
           moth_number = months_numbers[(offerDate[2:-4]).strip()]
           if days != "":
             if datetime.date(int(offerDate[-4:]),int(moth_number),int(offerDate[:2]))+relativedelta(days=int(days))>datetime.date.today():
-              print("Tytuł:",offerTitle.text.strip())
-              print("Cena:",price.text.strip())
-              print("Powierzchnia:",area.text.strip())
-              print("URL:",URL)
-              print("="*40)
+              offers.append(['olx.pl',offerTitle.text.strip(),area.text.strip(),price.text.strip(),URL])
             else:
               continue
           else:
-            print("Tytuł:",offerTitle.text.strip())
-            print("Cena:",price.text.strip())
-            print("Powierzchnia:",area.text.strip())
-            print("URL:",URL)
-            print("="*40)
-        elif URL.startswith("https://www.otodom.pl/"):
-          continue
+            offers.append(['olx.pl',offerTitle.text.strip(),area.text.strip(),price.text.strip(),URL])
         else:
-          print("Oferta z innego serwisu.")
+          continue
+    return offers
+
+#table creating
+
+table = Tk()
+table.geometry("1000x800")
 
 
-city = input("Podaj miasto: ")
-downprice = input("Podaj minimalną cenę: ")
-highprice = input("Podaj maksymalną cenę: ")
-downarea = input("Podaj minimalny metraż: ")
-higharea = input("Podaj maksymalny metraż: ")
-days = input("Podaj liczbę dni od dodania ogłoszenia: ")
+Label(table,text='Miasto').grid(row=0,column=0)
+city_field = Entry(table)
+city_field.grid(row=1,column=0)
+Label(table,text='Cena minimalna [zł]').grid(row=0,column=1)
+downprice_field = Entry(table)
+downprice_field.grid(row=1,column=1)
+Label(table,text='Cena maksymalna [zł]').grid(row=0,column=2)
+highprice_field = Entry(table)
+highprice_field.grid(row=1,column=2)
+Label(table,text='Powierzchnia minimalna [m2]').grid(row=0,column=3)
+downarea_field = Entry(table)
+downarea_field.grid(row=1,column=3)
+Label(table,text='Powierzchnia maksymalna [m2]').grid(row=0,column=4)
+higharea_field = Entry(table)
+higharea_field.grid(row=1,column=4)
+Label(table,text='Dni od pojawienia się oferty').grid(row=0,column=5)
+days_field = Entry(table)
+days_field.grid(row=1,column=5)
 
-otodom(city.lower(),downprice,highprice,downarea,higharea,days)
-#olx(city.lower(),downprice,highprice,downarea,higharea,days)
+Label(table, text="Znalezione oferty",font=("Arial",20)).grid(row=3, columnspan=6)
+columns = ('Serwis','Tytuł','Powierzchnia','Cena','Adres URL')
+listBox = ttk.Treeview(table,selectmode = 'extended',columns=columns,show='headings')
+listBox.column("Serwis", minwidth=0, width=100, stretch=TRUE)
+listBox.column("Tytuł", minwidth=0, width=300, stretch=TRUE)
+listBox.column("Powierzchnia", minwidth=0, width=100, stretch=TRUE)
+listBox.column("Cena", minwidth=0, width=100, stretch=TRUE)
+listBox.column("Adres URL", minwidth=0, width=400, stretch=YES)
+
+
+for column in columns:
+    listBox.heading(column,text=column)
+listBox.grid(row=4,column=0,columnspan=6)
+
+submitButton = Button(table, text="Zatwierdź", command = offer_search)
+submitButton.grid(row=2,column=5,pady=5)
+
+    
+table.mainloop()
