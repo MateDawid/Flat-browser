@@ -17,7 +17,6 @@ def offer_search():
     all_offers.append(element)
   for element in olx(city.lower(),downprice,highprice,downarea,higharea,days):
     all_offers.append(element)
-  offerAmount = len(all_offers)
   for offer in all_offers:
     listBox.insert("","end",values=(offer[0],offer[1],offer[2],offer[3],offer[4]))
 
@@ -79,8 +78,7 @@ def olx(city,price_from,price_to,area_from,area_to,days):
 #table creating
 
 table = Tk()
-table.geometry("1000x800")
-
+table.geometry("1000x340")
 
 Label(table,text='Miasto').grid(row=0,column=0)
 city_field = Entry(table)
@@ -103,13 +101,12 @@ days_field.grid(row=1,column=5)
 
 Label(table, text="Znalezione oferty",font=("Arial",20)).grid(row=3, columnspan=6)
 columns = ('Serwis','Tytuł','Powierzchnia','Cena','Adres URL')
-listBox = ttk.Treeview(table,selectmode = 'extended',columns=columns,show='headings')
-listBox.column("Serwis", minwidth=0, width=100, stretch=TRUE)
-listBox.column("Tytuł", minwidth=0, width=300, stretch=TRUE)
-listBox.column("Powierzchnia", minwidth=0, width=100, stretch=TRUE)
-listBox.column("Cena", minwidth=0, width=100, stretch=TRUE)
+listBox = ttk.Treeview(table,selectmode = 'browse',columns=columns,show='headings')
+listBox.column("Serwis", minwidth=0, width=100, stretch=YES)
+listBox.column("Tytuł", minwidth=0, width=300, stretch=YES)
+listBox.column("Powierzchnia", minwidth=0, width=100, stretch=YES)
+listBox.column("Cena", minwidth=0, width=100, stretch=YES)
 listBox.column("Adres URL", minwidth=0, width=400, stretch=YES)
-
 
 for column in columns:
     listBox.heading(column,text=column)
