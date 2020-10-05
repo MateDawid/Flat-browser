@@ -48,4 +48,4 @@ To-do list:
 Project is in progress, but able to use.
 
 ## Contact
-Created by [@matedawid](linkedin.com/in/matedawid) - if you have any questions, just contact me!
+Created by [@matedawid](https://linkedin.com/in/matedawid) - if you have any questions, just contact me!
