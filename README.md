@@ -6,6 +6,7 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Code Examples](#code-exemples)
 * [Features](#features)
 * [Status](#status)
 * [Contact](#contact)
@@ -14,35 +15,37 @@
 I made this application while I was looking for an apartment to buy. I figured it takes a long time to check each page separately and I decided to shorten the process. This program enables faster and easier viewing of housing websites.
 
 ## Screenshots
+TO DO!!!
 ![Example screenshot](./img/screenshot.png)
 
 ## Technologies
-* Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+TO DO!!!
+* Python XXX
 
 ## Setup
+TO DO!!!
 Describe how to install / setup your local environement / add link to demo version.
 
 ## Code Examples
+TO DO!!!
 Show examples of usage:
 `put-your-code-here`
 
 ## Features
 List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+* Selection of the city in which the apartment is to be searched for
+* Selection of apartment area (from - to)
+* Selection of apartment price (from - to)
+* Selection of days from the date of the offer
+* Searching otodom.pl and olx.pl pages and providing the results in the form of a list with buttons to redirect to chosen offer
 
 To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
+* Adding further housing websites
+* Adding possibility to save chosen offer in datebase
+* Convert app to .exe file with py2exe
 
 ## Status
-Project is: _in progress_, _finished_, _no longer continue_ and why?
-
-## Inspiration
-Add here credits. Project inspired by..., based on...
+Project is in progress, but able to use.
 
 ## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by [@matedawid](linkedin.com/in/matedawid) - if you have any questions, just contact me!
