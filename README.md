@@ -6,7 +6,7 @@
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Code Examples](#code-exemples)
+* [Code Examples](#code-examples)
 * [Features](#features)
 * [Status](#status)
 * [Contact](#contact)
