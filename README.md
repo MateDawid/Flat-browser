@@ -37,11 +37,10 @@ List of features ready and TODOs for future development
 * Selection of apartment area (from - to)
 * Selection of apartment price (from - to)
 * Selection of days from the date of the offer
-* Searching otodom.pl and olx.pl pages and providing the results in the form of a list with buttons to redirect to chosen offer
+* Searching otodom.pl, olx.pl and morizon.pl pages and providing the results in the form of a list with buttons to redirect to chosen offer
 
 To-do list:
-* Adding further housing websites
-* Adding possibility to save chosen offer in datebase
+* Adding possibility to save chosen offer in database
 * Convert app to .exe file with py2exe
 
 ## Status
