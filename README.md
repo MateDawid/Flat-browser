@@ -14,10 +14,10 @@
 I made this application while I was looking for an apartment to buy. I figured it takes a long time to check each page separately and I decided to shorten the process. This program enables faster and easier viewing of housing websites.
 
 ## Screenshots
-# Window Version
+### Window Version
 ![Example screenshot](./img/1.png)
 ![Example screenshot](./img/2.png)
-# Console Version
+### Console Version
 ![Example screenshot](./img/3.png)
 ![Example screenshot](./img/4.png)
 ![Example screenshot](./img/5.png)
