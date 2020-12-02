@@ -1,12 +1,11 @@
 # Flat-browser
-> This application enables to browse flat offers in chosen city, price and surface area.
+> This application enables to browse flat offers in chosen city, price and surface area. There are console and window version of this app.
 
 ## Table of contents
 * [General info](#general-info)
 * [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Code Examples](#code-examples)
 * [Features](#features)
 * [Status](#status)
 * [Contact](#contact)
@@ -15,22 +14,28 @@
 I made this application while I was looking for an apartment to buy. I figured it takes a long time to check each page separately and I decided to shorten the process. This program enables faster and easier viewing of housing websites.
 
 ## Screenshots
-TO DO!!!
-![Example screenshot](./img/screenshot.png)
+* Window Version
+![Example screenshot](./img/1.png)
+![Example screenshot](./img/2.png)
+* Console Version
+![Example screenshot](./img/3.png)
+![Example screenshot](./img/4.png)
+![Example screenshot](./img/5.png)
 
 ## Technologies
-TO DO!!!
-* Python XXX
+* Python 3.8.1
+* BeautifulSoup4
+* requests
+* Tkinter
+* datetime
+* relativedelta
 
 ## Setup
-TO DO!!!
-Describe how to install / setup your local environement / add link to demo version.
+To install app you will need to run command to install demanded packages:
 
-## Code Examples
-TO DO!!!
-Show examples of usage:
-`put-your-code-here`
+> pip install -r requirements.txt
 
+After that just run console_version/main.py or window_version/main.py using your IDE.
 ## Features
 List of features ready and TODOs for future development
 * Selection of the city in which the apartment is to be searched for
@@ -38,13 +43,8 @@ List of features ready and TODOs for future development
 * Selection of apartment price (from - to)
 * Selection of days from the date of the offer
 * Searching otodom.pl, olx.pl and morizon.pl pages and providing the results in the form of a list with buttons to redirect to chosen offer
-
-To-do list:
-* Adding possibility to save chosen offer in database
-* Convert app to .exe file with py2exe
-
 ## Status
-Project is in progress, but able to use.
+The project is ready for use, requires minor improvements.
 
 ## Contact
 Created by [@matedawid](https://linkedin.com/in/matedawid) - if you have any questions, just contact me!
