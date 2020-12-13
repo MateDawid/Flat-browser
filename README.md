@@ -31,11 +31,15 @@ I made this application while I was looking for an apartment to buy. I figured i
 * relativedelta
 
 ## Setup
-To install app you will need to run command to install demanded packages:
-
+To install and run app you will need to:
+* clone this repository to your computer or unpack .7z file in chosen directory
+* run IDE or command line
+* command in IDE to install demanded packages:
 > pip install -r requirements.txt
+* run comand line 
+* type "python X:\Flat-browser\console_version\main.py" to run console version
+* type "python X:\Flat-browser\window_version\main.py" to run window version
 
-After that just run console_version/main.py or window_version/main.py using your IDE.
 ## Features
 List of features ready and TODOs for future development
 * Selection of the city in which the apartment is to be searched for
