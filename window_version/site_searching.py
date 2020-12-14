@@ -5,7 +5,8 @@ from dateutil.relativedelta import relativedelta
 
 def otodom (city,price_from,price_to,area_from,area_to,days):
     # Filling URL address with variables
-    adress = "https://www.otodom.pl/sprzedaz/mieszkanie/"+city+"/?search%5Bcreated_since%5D="+days+"&search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&nrAdsPerPage=72" 
+    adress_city = city.replace(" ","-").replace("ą","a").replace("ę","e").replace("ć","c").replace("ń","n").replace("ó","o").replace("ś","s").replace("ó","o").replace("ź","z").replace("ż","z")
+    adress = "https://www.otodom.pl/sprzedaz/mieszkanie/"+adress_city+"/?search%5Bcreated_since%5D="+days+"&search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&nrAdsPerPage=72" 
 
     # Connecting with page
     page = requests.get(adress)
@@ -15,7 +16,7 @@ def otodom (city,price_from,price_to,area_from,area_to,days):
     
     # Searching offer details
     for element in elements:
-        city_name = city.capitalize()
+        city_name = city.title()
         if city_name in str(element.find('p',class_="text-nowrap").text.strip()):
             offerTitle = element.find('span',class_="offer-item-title")
             price = element.find('li',class_="offer-item-price")
@@ -30,7 +31,8 @@ def olx(city,price_from,price_to,area_from,area_to,days):
     months_numbers = {"stycznia":1,"lutego":2,"marca":3,"kwietnia":4,"maja":5,"czerwca":6,"lipca":7,"sierpnia":8,"września":9,"października":10,"listopada":11,"grudnia":12}
 
     # Filling URL address with variables 
-    adress = "https://www.olx.pl/nieruchomosci/mieszkania/sprzedaz/"+city+"/?search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&view=list"
+    adress_city = city.replace(" ","-").replace("ą","a").replace("ę","e").replace("ć","c").replace("ń","n").replace("ó","o").replace("ś","s").replace("ó","o").replace("ź","z").replace("ż","z")
+    adress = "https://www.olx.pl/nieruchomosci/mieszkania/sprzedaz/"+adress_city+"/?search%5Bfilter_float_price%3Afrom%5D="+price_from+"&search%5Bfilter_float_price%3Ato%5D="+price_to+"&search%5Bfilter_float_m%3Afrom%5D="+area_from+"&search%5Bfilter_float_m%3Ato%5D="+area_to+"&view=list"
 
     # Connecting with page
     page = requests.get(adress)
@@ -77,18 +79,17 @@ def morizon (city,price_from,price_to,area_from,area_to,days):
     # Filling URL address with variables 
     adress = "https://www.morizon.pl/mieszkania/"+city+"/?ps%5Bprice_from%5D="+price_from+"&ps%5Bprice_to%5D="+price_to+"&ps%5Bliving_area_from%5D="+area_from+"&ps%5Bliving_area_to%5D="+area_to
     # Setting URL based on typed "days" variable
-    if days == "":
-      adress += ""
-    elif int(days) == 1:
-      adress += "&ps%5Bdate_filter%5D=1"
-    elif int(days) in range(2,8):
-      adress += "&ps%5Bdate_filter%5D=7"
-    elif int(days) in range(8,31):
-      adress += "&ps%5Bdate_filter%5D=30"
-    elif int(days) in range(31,91):
-      adress += "&ps%5Bdate_filter%5D=90"
-    elif int(days) in range(91,181):
-      adress += "&ps%5Bdate_filter%5D=180"
+    if days != "":  
+        if int(days) == 1:
+          adress += "&ps%5Bdate_filter%5D=1"
+        elif int(days) in range(2,8):
+          adress += "&ps%5Bdate_filter%5D=7"
+        elif int(days) in range(8,31):
+          adress += "&ps%5Bdate_filter%5D=30"
+        elif int(days) in range(31,91):
+          adress += "&ps%5Bdate_filter%5D=90"
+        elif int(days) in range(91,181):
+          adress += "&ps%5Bdate_filter%5D=180"
       
     # Connecting with page
     page = requests.get(adress)
