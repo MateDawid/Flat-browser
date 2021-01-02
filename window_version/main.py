@@ -34,15 +34,25 @@ def offer_search():
   Label(offers_table, text="").grid(row=1,column=0, columnspan=1)
   columns = ('Site','Title','Area','Price')
   for i in range(len(columns)):
-    header = Entry(offers_table,width=30,font=("Arial",10,'bold'))
-    header.grid(row = 1,column = i+2)
-    header.insert(END,columns[i])
+    if columns[i] != "Title":
+      header = Entry(offers_table,width=20,font=("Arial",10,'bold'),justify='center')
+      header.grid(row = 1,column = i+2)
+      header.insert(END,columns[i])
+    else:
+      header = Entry(offers_table,width=60,font=("Arial",10,'bold'),justify='center')
+      header.grid(row = 1,column = i+2)
+      header.insert(END,columns[i])  
 
   # adding offers to table
   total_rows = len(all_offers)
   for i in range(total_rows): 
     for j in range(4):
-        final_offer = Entry(offers_table,width=30,font=("Arial",10))
+      if j!=1:
+        final_offer = Entry(offers_table,width=20,font=("Arial",10),justify='center')
+        final_offer.grid(row=i+5,column=j+2)
+        final_offer.insert(END,all_offers[i][j])
+      else:
+        final_offer = Entry(offers_table,width=60,font=("Arial",10))
         final_offer.grid(row=i+5,column=j+2)
         final_offer.insert(END,all_offers[i][j])
     website = all_offers[i][4]
