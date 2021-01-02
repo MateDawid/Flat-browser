@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter import ttk
 import webbrowser
 
 from site_searching import *
@@ -27,19 +28,37 @@ def offer_search():
   offers_table = Tk()
   offers_table.title("FlatBrowser")
   label_text = "Offers found: "+str(len(all_offers))
-  offers_table.geometry("930x570")
- 
+  offers_table.geometry("950x600")
+
+  # adding scrollbar
+
+  main_frame = Frame(offers_table)
+  main_frame.pack(fill=BOTH, expand=1)
+
+  my_canvas = Canvas(main_frame)
+  my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+  my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+  my_scrollbar.pack(side=RIGHT, fill=Y)
+
+  my_canvas.configure(yscrollcommand=my_scrollbar.set)
+  my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all")))
+
+  second_frame = Frame(my_canvas)
+
+  my_canvas.create_window((0,0), window=second_frame, anchor = "nw")
+
   # table with flat offers
-  Label(offers_table, text=label_text,font=("Arial",20)).grid(row=0,column=2, columnspan=5)
-  Label(offers_table, text="").grid(row=1,column=0, columnspan=1)
+  Label(second_frame, text=label_text,font=("Arial",20)).grid(row=0,column=2, columnspan=5)
+  Label(second_frame, text="").grid(row=1,column=0, columnspan=1)
   columns = ('Site','Title','Area','Price')
   for i in range(len(columns)):
     if columns[i] != "Title":
-      header = Entry(offers_table,width=20,font=("Arial",10,'bold'),justify='center')
+      header = Entry(second_frame,width=20,font=("Arial",10,'bold'),justify='center')
       header.grid(row = 1,column = i+2)
       header.insert(END,columns[i])
     else:
-      header = Entry(offers_table,width=60,font=("Arial",10,'bold'),justify='center')
+      header = Entry(second_frame,width=60,font=("Arial",10,'bold'),justify='center')
       header.grid(row = 1,column = i+2)
       header.insert(END,columns[i])  
 
@@ -48,15 +67,15 @@ def offer_search():
   for i in range(total_rows): 
     for j in range(4):
       if j!=1:
-        final_offer = Entry(offers_table,width=20,font=("Arial",10),justify='center')
+        final_offer = Entry(second_frame,width=20,font=("Arial",10),justify='center')
         final_offer.grid(row=i+5,column=j+2)
         final_offer.insert(END,all_offers[i][j])
       else:
-        final_offer = Entry(offers_table,width=60,font=("Arial",10))
+        final_offer = Entry(second_frame,width=60,font=("Arial",10))
         final_offer.grid(row=i+5,column=j+2)
         final_offer.insert(END,all_offers[i][j])
     website = all_offers[i][4]
-    final_offer = Button(offers_table,text = "Website",command=lambda aurl=website:open_web(aurl))
+    final_offer = Button(second_frame,text = "Website",command=lambda aurl=website:open_web(aurl))
     final_offer.grid(row=i+5,column=6)
 
   # Information after finishing searching
