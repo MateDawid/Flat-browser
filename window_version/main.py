@@ -25,11 +25,12 @@ def offer_search():
   
   # create table with offers
   offers_table = Tk()
-  offers_table.title("FlatBrowser - Found offers")
+  offers_table.title("FlatBrowser")
+  label_text = "Offers found: "+str(len(all_offers))
   offers_table.geometry("930x570")
  
   # table with flat offers
-  Label(offers_table, text="Offers found",font=("Arial",20)).grid(row=0,column=2, columnspan=5)
+  Label(offers_table, text=label_text,font=("Arial",20)).grid(row=0,column=2, columnspan=5)
   Label(offers_table, text="").grid(row=1,column=0, columnspan=1)
   columns = ('Site','Title','Area','Price')
   for i in range(len(columns)):
@@ -49,7 +50,7 @@ def offer_search():
     final_offer.grid(row=i+5,column=6)
 
   # Information after finishing searching
-  messagebox.showinfo("Info","Searching finished.")
+  messagebox.showinfo("Info","Searching finished. We've found "+str(len(all_offers))+" offers.")
   offers_table.mainloop()
 
 
